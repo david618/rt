@@ -163,9 +163,12 @@ public class InRootHandler implements HttpHandler {
         try {
 
             String uriPath = he.getRequestURI().toString();
+            
+            String contentType = he.getRequestHeaders().getFirst("Content-type");
 
             if (uriPath.equalsIgnoreCase("/")) {
 
+                
                 if (he.getRequestMethod().equalsIgnoreCase("POST")) {
                     InputStreamReader isr = new InputStreamReader(he.getRequestBody(), "utf-8");
                     BufferedReader br = new BufferedReader(isr);
