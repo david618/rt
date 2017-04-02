@@ -50,7 +50,6 @@ public class TcpServerKafka extends Thread {
             
             LocalDateTime st = LocalDateTime.now();
             
-
             Integer cnt = 0;
             Long sumLatencies = 0L;
 
@@ -58,9 +57,6 @@ public class TcpServerKafka extends Thread {
                 //System.out.println(inputLine);
 
                 UUID uuid = UUID.randomUUID();
-
-
-
 
                 String line = inputLine;
 
