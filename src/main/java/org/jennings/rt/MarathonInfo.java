@@ -42,7 +42,7 @@ public class MarathonInfo {
         String brokers = "";
 
         // Since no port was specified assume this is a hub name
-        String url = "http://marathon.mesos/marathon/v2/apps/" + kafkaName;
+        String url = "http://marathon.mesos:8080/v2/apps/" + kafkaName;
         System.out.println(url);
         
         // Support for https
