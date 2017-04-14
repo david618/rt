@@ -27,3 +27,44 @@ timestamp,id,dtg,rt,lon,lat,speed,bearing
 
 Types:
 long,int,string,string,double,double,double,double
+
+## Assumptions 
+
+As in the [Introduction Test](IntroTest.md) you have
+- DCOS is installed and configured
+- Test Server is configured 
+
+## Configure Source
+
+Create a service for TCP input.
+{
+  "id": "/tcp-kafka",
+  "cmd": "java -cp $MESOS_SANDBOX/rt-jar-with-dependencies.jar org.jennings.rt.source.tcp.TcpKafka 5565 kafka simFile $PORT",
+  "cpus": 1,
+  "mem": 2048,
+  "disk": 0,
+  "instances": 1,
+  "constraints": [
+    [
+      "hostname",
+      "UNIQUE"
+    ]
+  ],
+  "healthChecks": [
+    {
+      "path": "/",
+      "protocol": "HTTP",
+      "gracePeriodSeconds": 300,
+      "intervalSeconds": 60,
+      "timeoutSeconds": 20,
+      "maxConsecutiveFailures": 3,
+      "ignoreHttp1xx": false,
+      "portindex": 0
+    }
+  ],
+  "uris": [
+    "http://p2/apps/rt-jar-with-dependencies.jar"
+  ]
+}
+
+
