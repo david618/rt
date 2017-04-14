@@ -146,6 +146,10 @@ Click Install for "kafka". Click Advanced Installation.  Under brokers you shoul
 
 003.png
 
+Also Check  Enable Delete check box.
+
+007.png
+
 Click Review and Install; Install. 
 
 It'll take a min or so for kafka to deploy.  The default name of the kafka instance is "kafka".
