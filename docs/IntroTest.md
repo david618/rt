@@ -319,10 +319,39 @@ The reset command will clear results in counts and rates.
 
 Running on Azure with DS4v2 (8 cores and 28GB memory)
 
+Throughput
+
 | Simulator <br/> Requested/Measured       | tcp-kafka | kafka-cnt |
 |------------------|-----------|-----------|
 | 200,000/141,500   | 141,400    | 141300    |
 | 200,000/63,900 <br/>  200,000/64,400   | 128,100 | 127,700 |   
+
+
+### Increasing Throughput
+
+Stopped the apps (tcp-kafka) and (kafka-cnt).
+
+Increased the number of partitions for the topic to 2.  Instructions on managing kafka [here](ManageKafkaTopics.md)
+
+Scaled the apps (tcp-kafka) and (kafka-cnt) to have two instances each.
+
+Ran two Simulators. Used IP's instead of DNS name.
+
+<pre>
+dig tcp-kafka.marathon.mesos
+
+java -cp target/Simulator.jar com.esri.simulator.Tcp 172.17.2.4 5565 simFile_1000_10s.dat 200000 2000000
+java -cp target/Simulator.jar com.esri.simulator.Tcp 172.17.2.5 5565 simFile_1000_10s.dat 200000 2000000
+</pre>
+
+Ran both commands at same time.
+
+
+| Simulator <br/> Requested/Measured       | tcp-kafka | kafka-cnt |
+|------------------|-----------|-----------|
+| 200,000/141,500 <br/> 200,000/137,200| 277,700     | 273,600
+
+You can double the througput by adding more instances of the sources and sinks.
 
 
 
