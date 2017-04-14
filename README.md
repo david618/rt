@@ -314,6 +314,15 @@ curl kafka-cnt.marathon.mesos:14002/reset; echo
 The reset command will clear results in counts and rates.
 
 
+## Test Results
+
+Running on Azure with DS4v2 (8 cores and 28GB memory)
+
+| Simulator <br/> Requested/Measured       | tcp-kafka | kafka-cnt |
+|------------------|-----------|-----------|
+| 200,000/141,500   | 141,400    | 141300    |
+| 200,000/63,900 <br/>  200,000/64,400   | 128,100 | 127,700 |   
+
 
 
 
