@@ -28,8 +28,12 @@ to PATH
 
 You can now execute commands.
 
-- List Topics
-dcos kafka topic list  
+|Description|Command|
+|---|---|
+|Help on Kafka Topic | dcos kafka topic --help |
+| List Topics | dcos kafka topic list  |
+| Descirbe Topic simFile | dcos kafka topic describe simFile |
+| Set simFile to 2 Partitions | dcos kafka topic partitions simFile 2 |
 
 
 
