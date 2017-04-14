@@ -5,8 +5,6 @@ package org.jennings.rt;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import org.apache.http.HttpResponse;
@@ -25,18 +23,18 @@ import org.json.JSONObject;
  */
 public class MarathonInfo {
 
-    
     /**
-     * 
+     *
      * @param kafkaName
      * @return comma separated list of brokers
-     * @throws Exception 
-     * 
+     * @throws Exception
+     *
      * Uses the Marathon rest api to get the brokers for the specified KafkaName
-     * 
-     * Assumes you have mesos dns installed and configured.
-     * So you should be able to ping marathon.mesos and <hub-name>.marathon.mesos from the server you run this on
-     * 
+     *
+     * Assumes you have mesos dns installed and configured. So you should be
+     * able to ping marathon.mesos and <hub-name>.marathon.mesos from the server
+     * you run this on
+     *
      */
     public String getBrokers(String kafkaName) throws Exception {
         String brokers = "";
@@ -44,7 +42,7 @@ public class MarathonInfo {
         // Since no port was specified assume this is a hub name
         String url = "http://marathon.mesos:8080/v2/apps/" + kafkaName;
         System.out.println(url);
-        
+
         // Support for https
         SSLContextBuilder builder = new SSLContextBuilder();
         builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
@@ -52,7 +50,7 @@ public class MarathonInfo {
                 builder.build());
         CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(
                 sslsf).build();
-       
+
         HttpGet request = new HttpGet(url);
 
         HttpResponse response = httpclient.execute(request);
@@ -64,7 +62,7 @@ public class MarathonInfo {
         while ((line = rd.readLine()) != null) {
             result.append(line);
         }
-        
+
         System.out.println(result);
 
         JSONObject json = new JSONObject(result.toString());
@@ -72,16 +70,16 @@ public class MarathonInfo {
         JSONArray tasks = app.getJSONArray("tasks");
         JSONObject task = tasks.getJSONObject(0);
         JSONArray ports = task.getJSONArray("ports");
-        
+
         int k = 0;
         brokers = "";
-        
-        while (k < ports.length() && brokers.isEmpty() ) {
-            try {               
-            
+
+        while (k < ports.length() && brokers.isEmpty()) {
+            try {
+
                 Integer port = ports.getInt(k);
                 System.out.println(port);
-                
+
                 k++;
 
                 // Now get brokers from service
@@ -101,7 +99,6 @@ public class MarathonInfo {
                     result.append(line);
                 }
 
-
                 System.out.println(result);
                 json = new JSONObject(result.toString());
 
@@ -118,20 +115,19 @@ public class MarathonInfo {
             } catch (Exception e) {
                 brokers = "";
             }
-            
+
         }
-        
 
         return brokers;
     }
 
-    
     public String getElasticSearchTransportAddresses(String esFrameworkName) throws Exception {
         // Get the Transport Addresses for given Elasticsearch Framework Name (e.g. elasticsearch by default)
         String addresses = "";
 
-        // Since no port was specified assume this is a hub name
-        String url = "http://leader.mesos/service/" + esFrameworkName + "/v1/tasks";
+        // Since no port was specified assume this is service name
+        //String url = "http://leader.mesos/service/" + esFrameworkName + "/v1/tasks";
+        String url = "http://marathon.mesos:8080/v2/apps/" + esFrameworkName;
         //System.out.println(url);
 
         // Support for https
@@ -154,13 +150,35 @@ public class MarathonInfo {
             result.append(line);
         }
 
-        //System.out.println(result);
+        System.out.println(result);
+        JSONObject json = new JSONObject(result.toString());
+        JSONObject app = json.getJSONObject("app");
+        JSONArray tasks = app.getJSONArray("tasks");
+        JSONObject task = tasks.getJSONObject(0);
+        JSONArray ports = task.getJSONArray("ports");
 
-        JSONArray json = new JSONArray(result.toString());
+        int port = ports.getInt(0);
+        String eip = task.getString("host");
+
+        url = "http://" + eip + ":" + port + "/v1/tasks";
+
+        request = new HttpGet(url);
+
+        response = httpclient.execute(request);
+        rd = new BufferedReader(
+                new InputStreamReader(response.getEntity().getContent()));
+
+        result = new StringBuffer();
+        line = "";
+        while ((line = rd.readLine()) != null) {
+            result.append(line);
+        }
+
+        JSONArray jsonArray = new JSONArray(result.toString());
 
         int i = 0;
-        while (i < json.length()) {
-            JSONObject item = json.getJSONObject(i);
+        while (i < jsonArray.length()) {
+            JSONObject item = jsonArray.getJSONObject(i);
             String ta = item.getString("transport_address");
             //System.out.println(ta);
             if (i > 0) {
@@ -178,7 +196,8 @@ public class MarathonInfo {
         String addresses = "";
 
         // Since no port was specified assume this is a hub name
-        String url = "http://leader.mesos/service/" + esAppName + "/v1/tasks";
+        //String url = "http://leader.mesos/service/" + esAppName + "/v1/tasks";
+        String url = "http://marathon.mesos:8080/v2/apps/" + esAppName;
         //System.out.println(url);
 
         // Support for https
@@ -201,13 +220,36 @@ public class MarathonInfo {
             result.append(line);
         }
 
-        //System.out.println(result);
+        System.out.println(result);
+        JSONObject json = new JSONObject(result.toString());
+        JSONObject app = json.getJSONObject("app");
+        JSONArray tasks = app.getJSONArray("tasks");
+        JSONObject task = tasks.getJSONObject(0);
+        JSONArray ports = task.getJSONArray("ports");
 
-        JSONArray json = new JSONArray(result.toString());
+        int port = ports.getInt(0);
+        String eip = task.getString("host");
+
+        url = "http://" + eip + ":" + port + "/v1/tasks";;
+
+        
+        request = new HttpGet(url);
+
+        response = httpclient.execute(request);
+        rd = new BufferedReader(
+                new InputStreamReader(response.getEntity().getContent()));
+
+        result = new StringBuffer();
+        line = "";
+        while ((line = rd.readLine()) != null) {
+            result.append(line);
+        }        
+        
+        JSONArray jsonArray = new JSONArray(result.toString());
 
         int i = 0;
-        while (i < json.length()) {
-            JSONObject item = json.getJSONObject(i);
+        while (i < jsonArray.length()) {
+            JSONObject item = jsonArray.getJSONObject(i);
             String ta = item.getString("http_address");
             //System.out.println(ta);
             if (i > 0) {
@@ -224,7 +266,8 @@ public class MarathonInfo {
 
         String clusterName = "";
         // Since no port was specified assume this is a hub name
-        String url = "http://leader.mesos/service/" + esAppName + "/v1/cluster";
+        //String url = "http://leader.mesos/service/" + esAppName + "/v1/cluster";
+        String url = "http://marathon.mesos:8080/v2/apps/" + esAppName;
         //System.out.println(url);
 
         // Support for https
@@ -247,15 +290,37 @@ public class MarathonInfo {
             result.append(line);
         }
 
-        //System.out.println(result);
-
+        System.out.println(result);
         JSONObject json = new JSONObject(result.toString());
+        JSONObject app = json.getJSONObject("app");
+        JSONArray tasks = app.getJSONArray("tasks");
+        JSONObject task = tasks.getJSONObject(0);
+        JSONArray ports = task.getJSONArray("ports");
+
+        int port = ports.getInt(0);
+        String eip = task.getString("host");
+
+        url = "http://" + eip + ":" + port + "/v1/cluster";;
+
+        
+        request = new HttpGet(url);
+
+        response = httpclient.execute(request);
+        rd = new BufferedReader(
+                new InputStreamReader(response.getEntity().getContent()));
+
+        result = new StringBuffer();
+        line = "";
+        while ((line = rd.readLine()) != null) {
+            result.append(line);
+        }       
+        
+        json = new JSONObject(result.toString());
         JSONObject config = json.getJSONObject("configuration");
         clusterName = config.getString("ElasticsearchClusterName");
 
-
         return clusterName;
 
-    }    
-    
+    }
+
 }
