@@ -18,7 +18,6 @@ import java.util.regex.Pattern;
 import org.apache.kafka.common.PartitionInfo;
 import org.elasticsearch.action.bulk.BulkProcessor;
 import org.elasticsearch.action.bulk.BulkRequest;
-import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.Client;
@@ -30,6 +29,7 @@ import org.elasticsearch.common.unit.ByteSizeValue;
 import org.elasticsearch.common.unit.TimeValue;
 import org.jennings.rt.MarathonInfo;
 import org.jennings.rt.webserver.WebServer;
+import org.json.JSONObject;
 
 /**
  * Created by david on 8/20/2016.
@@ -192,12 +192,19 @@ public class KafkaElasticsearch {
             for (ConsumerRecord<String, String> record : records) {
                 lr = System.currentTimeMillis();
 
-                cnt += 1;
-                if (cnt == 1) {
-                    st = System.currentTimeMillis();
+                try {
+                    new JSONObject(record.value());
+                    bulkProcessor.add(new IndexRequest(this.index, this.typ).source(record.value()));
+                    cnt += 1;
+                    if (cnt == 1) {
+                        st = System.currentTimeMillis();
+                    }                    
+                    
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
-                bulkProcessor.add(new IndexRequest(this.index, this.typ).source(record.value()));
+                
+                
 //                bulkRequest.add(client.prepareIndex(this.index, typ).setSource(record.value()));
 //
 //                if (cnt % this.esbulk == 0) {
