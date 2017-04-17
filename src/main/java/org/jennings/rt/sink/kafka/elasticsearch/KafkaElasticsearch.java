@@ -27,6 +27,7 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.unit.ByteSizeUnit;
 import org.elasticsearch.common.unit.ByteSizeValue;
 import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.jennings.rt.MarathonInfo;
 import org.jennings.rt.webserver.WebServer;
 import org.json.JSONObject;
@@ -79,9 +80,12 @@ public class KafkaElasticsearch {
 
             consumer = new KafkaConsumer<>(props);
 
-            Settings settings = Settings.settingsBuilder().put("cluster.name", this.clusterName).build();
-
-            TransportClient tc = TransportClient.builder().settings(settings).build();
+            // These next two lines worked before Elasticsearch 5
+//            Settings settings = Settings.settingsBuilder().put("cluster.name", this.clusterName).build();
+//            TransportClient tc = TransportClient.builder().settings(settings).build();
+            // These are for Elasticsearch 5
+            Settings settings = Settings.builder().put("cluster.name", this.clusterName).build();
+            TransportClient tc = new PreBuiltTransportClient(settings);
 
             String hosts[] = esnodes.split(",");
             for (String host : hosts) {
