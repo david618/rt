@@ -108,3 +108,26 @@ This service listens on a Kafka topic and writes the data to Elasticsearch index
 }
 </pre>
 
+
+# Run Tests
+
+You can feed TCP messages from a file.
+
+On the test Server.
+
+<pre>
+java -cp target/Simulator.jar com.esri.simulator.Tcp tcp-kafka.marathon.mesos 5565 simFile_1000_10s.json 100 3000
+</pre>
+
+In the stdout of the kafka-elasticsearch you'll see the number of features processed and the rate they were written to Elasticsearch.  
+
+*NOTE:* If you input something that is not valid JSON (delimited lines) to Kafka; you'll get errors in the stderr that indicate that the input was not valid JSON.
+
+|Num Events|Rate Simulator|tcp-kafka|kafka-elasticsearch|
+|---|---|---|---|
+|3,000,000|30,000|28,200|25,100|
+|6,000,000|60,000|54,200|21,900|
+
+
+
+
