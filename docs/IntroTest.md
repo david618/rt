@@ -107,7 +107,7 @@ If there is a web server error you'll get back html or text.
 ### Install or Position Java
 You can install Java on each Mesos agent (recommended) or you can download Java and include it as "uri" in the configuration.
 
-** Install Java **
+** Install Jave **
 
 As root on each agent.
 
@@ -124,8 +124,9 @@ ssh -t -i azureuser a1 "sudo yum install -y java-1.8.0-openjdk"
 Where a1 is one of the private agents.  This could easily be scripted to install on all agents.
 
 
-** Putting Java on Web Server **
-You'll need to put a copy of the Java Runtime Environment on the Web Server.
+*Putting Java on Web Server* (Alternative to install Java on each node)
+
+You can put a copy of the Java Runtime Environment on the Web Server.
 
 I downloaded the JRE from [Oracle Download Page](http://www.oracle.com/technetwork/java/javase/downloads/index.html).  Selecting JRE; click Accept License; and download Linux x64 tar.gz file. 
 
