@@ -93,7 +93,7 @@ cp /home/azureuser/rt/target/rt-jar-with-dependencies.jar /var/www/html/apps
 You should be able to download the file to any of the nodes.
 
 <pre>
-curl p2/apps/rt-jar-with-dependencies.jar
+curl -O p2/apps/rt-jar-with-dependencies.jar
 ls -lh rt-jar-with-dependencies.jar 
 file rt-jar-with-dependencies.jar 
 </pre>
@@ -114,6 +114,14 @@ As root on each agent.
 <pre>
 yum -y install java-1.8.0-openjdk
 </pre>
+
+You can do this from the "boot" server using ssh command.
+
+<pre>
+ssh -t -i azureuser a1 "sudo yum install -y java-1.8.0-openjdk" 
+</pre>
+
+Where a1 is one of the private agents.  This could easily be scripted to install on all agents.
 
 
 ** Putting Java on Web Server **
