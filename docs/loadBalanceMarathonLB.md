@@ -51,7 +51,7 @@ Deploy Service with Configurations for ports. The following example app uses two
       "timeoutSeconds": 20,
       "maxConsecutiveFailures": 3,
       "ignoreHttp1xx": false,
-      "port": 14001
+      "portIndex": 0
     }
   ],
   "uris": [
