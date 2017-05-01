@@ -91,11 +91,16 @@ cd /var/www/html/apps/
 cat cp /home/azureuser/rt/org.jennings.rt.sink.kafka.kafka.TransformGeotagSimFile.properties /var/www/html/apps/
 </pre>
 
+Edit properties file.
+
+The file contains some configuable parameters used by the TransformGeotagSimFile class which is executed by the KafkaTransformKafka class.  You'll need to set the path for the fenceUrl for your configuration.  The fieldName is the field that contains values that will be added as the geotag field. If filter it true only events that intersect the polygons will passed.
+
+<pre>
 fenceUrl=http://p2/data/airports1000FS.json
 fieldName=iata_faa
 filter=false
+</pre>
 
-The file contains some configuable parameters used by the TransformGeotagSimFile class which is executed by the KafkaTransformKafka class.  You'll need to set the path for the fenceUrl for your configuration.  The fieldName is the field that contains values that will be added as the geotag field. If filter it true only events that intersect the polygons will passed.
 
 ## Create kafka-transform-kafka service
 
