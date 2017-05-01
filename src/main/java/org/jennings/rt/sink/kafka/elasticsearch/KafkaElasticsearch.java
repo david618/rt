@@ -262,7 +262,7 @@ public class KafkaElasticsearch {
 
 
 
-            }   // Otherwise assume it's brokers
+            }   
 
             KafkaElasticsearch t = null;
 
