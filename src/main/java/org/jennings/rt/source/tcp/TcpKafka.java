@@ -73,6 +73,8 @@ public class TcpKafka {
         CHRONYD check status: $ chronyc tracking
 
          */
+        
+//        TcpKafka t = new TcpKafka(5565,"kafka:9092", "simFile", 15000 , false);
 
         int numargs = args.length;
 
