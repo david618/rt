@@ -19,10 +19,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Pattern;
+
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
 
@@ -58,7 +64,7 @@ public class KafkaElasticsearch3 {
     // Web Server For Task Health/Counts
     WebServer server;
 
-    public KafkaElasticsearch3(String brokers, String topic, String group, String strURL, Integer esbulk, Integer webport) {
+    public KafkaElasticsearch3(String brokers, String topic, String group, String strURL, Integer esbulk, Integer webport, String username, String password) {
 
         try {
 
@@ -95,8 +101,16 @@ public class KafkaElasticsearch3 {
             if (esbulk < 0) {
                 esbulk = 0;
             }
-
-            httpClient = HttpClientBuilder.create().build();
+            
+            CredentialsProvider provider = new BasicCredentialsProvider();
+            UsernamePasswordCredentials credentials
+                    = new UsernamePasswordCredentials(username, password);
+            provider.setCredentials(AuthScope.ANY, credentials);
+            
+            
+            httpClient = HttpClientBuilder.create()
+                    .setDefaultCredentialsProvider(provider)
+                    .build();
 
             httpPost = new HttpPost(this.strURL);
 
@@ -210,16 +224,23 @@ public class KafkaElasticsearch3 {
 
         int numArgs = args.length;
 
-        if (numArgs != 9) {
-            System.err.print("Usage: KafkaElasticsearch3 <broker-list> <topic> <group-id> <elastic-url-to-type-index> <es-bulk> <web-port> \n");
+        if (numArgs != 6 && numArgs != 8) {
+            System.err.print("Usage: KafkaElasticsearch3 <broker-list> <topic> <group-id> <elastic-url-to-type-index> <es-bulk> <web-port> (<username> <password>)\n");
         } else {
-
             String brokers = args[0];
             String topic = args[1];
             String groupId = args[2];
             String esURL = args[3];
-            Integer bulk = Integer.parseInt(args[7]);
-            Integer webport = Integer.parseInt(args[8]);
+            Integer bulk = Integer.parseInt(args[4]);
+            Integer webport = Integer.parseInt(args[5]);
+
+            String username = "";
+            String password = "";
+            if (numArgs == 8) {
+                username = args[6];
+                password = args[7];
+            }
+             
 
             String brokerSplit[] = brokers.split(":");
             if (brokerSplit.length == 1) {
@@ -235,7 +256,7 @@ public class KafkaElasticsearch3 {
             System.out.println(bulk);
             System.out.println(webport);
 
-            KafkaElasticsearch3 t = new KafkaElasticsearch3(brokers, topic, groupId, esURL, bulk, webport);
+            KafkaElasticsearch3 t = new KafkaElasticsearch3(brokers, topic, groupId, esURL, bulk, webport, username, password);
             t.read();
 
         }
