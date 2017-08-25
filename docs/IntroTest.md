@@ -369,9 +369,18 @@ You can double the througput by adding more instances of the sources and sinks.
 
 
 
+### Repeated Test 25 Aug 2017
 
+- DC/OS 1.9.2 
+- Running Virtual Box VM's 
+- VM's hosted from three computers 
+- One Master, 11 Agents, 1 Public Agent
+- Agents had 4cpu each; Memory from 4G to 6G each
 
-
+| Simulator <br/> Requested/Measured       | tcp-kafka | kafka-cnt |Events Sent|
+|------------------------------------------|-----------|-----------|-----------|
+| 300,000/210,500                          | 210,400   | 210,400   |30,000,000 |
+| 300,000/209,3000                         | 209,240   | 209,250   |100,000,000|
 
 
 
