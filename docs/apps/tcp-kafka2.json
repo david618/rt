@@ -1,6 +1,6 @@
 {
   "id": "/tcp-kafka",
-  "cmd": "$MESOS_SANDBOX/jre1.8.0_144/bin/java -cp $MESOS_SANDBOX/rt-jar-with-dependencies.jar org.jennings.rt.source.tcp.TcpKafka 5565 kafka simFile $PORT0",
+  "cmd": "$MESOS_SANDBOX/jre1.8.0_144/bin/java -cp $MESOS_SANDBOX/rt-jar-with-dependencies.jar org.jennings.rt.source.tcp.TcpKafka 5565 broker.kafka.l4lb.thisdcos.directory:9092 simFile $PORT0",
   "cpus": 1,
   "mem": 2048,
   "disk": 0,
@@ -24,7 +24,7 @@
     }
   ],
   "uris": [
-    "http://boot:8080/jre-8u144-linux-x64.tar.gz",
+    "http://boot:8080/apps/jre-8u144-linux-x64.tar.gz",
     "http://boot:8080/apps/rt-jar-with-dependencies.jar"
   ]
 }
