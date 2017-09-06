@@ -1,0 +1,31 @@
+
+{
+  "id": "/kafka-cnt",
+  "cmd": "$MESOS_SANDBOX/jre1.8.0_144/bin/java -cp $MESOS_SANDBOX/rt-jar-with-dependencies.jar org.jennings.rt.sink.kafka.KafkaCnt broker.kafka.l4lb.thisdcos.directory:9092 simFile group1 $PORT0",
+  "cpus": 1,
+  "mem": 2048,
+  "disk": 0,
+  "instances": 1,
+  "constraints": [
+    [
+      "hostname",
+      "UNIQUE"
+    ]
+  ],
+  "healthChecks": [
+    {
+      "path": "/",
+      "protocol": "HTTP",
+      "gracePeriodSeconds": 300,
+      "intervalSeconds": 60,
+      "timeoutSeconds": 20,
+      "maxConsecutiveFailures": 3,
+      "ignoreHttp1xx": false,
+      "portindex": 0
+    }
+  ],  
+  "uris": [    
+    "http://boot:8080/apps/jre-8u144-linux-x64.tar.gz",
+    "http://boot:8080/apps/rt-jar-with-dependencies.jar"
+  ]
+}
