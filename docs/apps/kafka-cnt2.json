@@ -1,4 +1,3 @@
-
 {
   "id": "/kafka-cnt",
   "cmd": "$MESOS_SANDBOX/jre1.8.0_144/bin/java -cp $MESOS_SANDBOX/rt-jar-with-dependencies.jar org.jennings.rt.sink.kafka.KafkaCnt broker.kafka.l4lb.thisdcos.directory:9092 simFile group1 $PORT0",
