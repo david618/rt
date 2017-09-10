@@ -118,15 +118,15 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka-clients</artifactId>
-            <version>0.10.2.1</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
             <version>5.5.1</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>0.10.2.1</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -142,34 +142,15 @@
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.11</artifactId>
-            <version>0.10.0.0</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-core_2.11</artifactId>
-            <version>1.6.0</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-streaming_2.11</artifactId>
-            <version>1.6.0</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-streaming-kafka_2.11</artifactId>
-            <version>1.6.0</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
             <groupId>com.esri.geometry</groupId>
             <artifactId>esri-geometry-api</artifactId>
             <version>1.2.1</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.1.4.jre7</version>
+        </dependency>        
     </dependencies>
 </project>
