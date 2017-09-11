@@ -51,19 +51,19 @@ public class RootHandler implements HttpHandler {
         tm = System.currentTimeMillis();
     }
     
-    public static void addCnt(long cnt) {
+    public void addCnt(long cnt) {
         cnts.add(cnt);
     }
 
-    public static void addRate(double rate) {
+    public void addRate(double rate) {
         rates.add(rate);
     }
 
-    public static void addLatency(double latency) {
+    public void addLatency(double latency) {
         latencies.add(latency);
     }
 
-    public static void setTm(long tm) {
+    public void setTm(long tm) {
         RootHandler.tm = tm;
     }  
     

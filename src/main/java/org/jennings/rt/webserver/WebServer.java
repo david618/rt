@@ -22,7 +22,6 @@ This is the web server for supporting health checks.
  */
 package org.jennings.rt.webserver;
 
-import org.jennings.rt.webserver.RootHandler;
 import com.sun.net.httpserver.HttpServer;
 import java.net.InetSocketAddress;
 
@@ -58,7 +57,8 @@ public class WebServer {
 
         try {
             HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-            server.createContext("/", new RootHandler());
+            rootHandler = new RootHandler();
+            server.createContext("/", rootHandler );
 
             server.start();
 
