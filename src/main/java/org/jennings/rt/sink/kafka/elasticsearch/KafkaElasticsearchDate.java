@@ -1,23 +1,4 @@
 /*
- * (C) Copyright 2017 David Jennings
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * Contributors:
- *     David Jennings
- */
-
-/*
  Consume a Kafka topic and write lines to Elasticsearch.  Assumes the elements from Kafka are Json Strings suitable for loading into Elasticsearch.
 
  */
@@ -29,6 +10,7 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 
 import java.net.InetAddress;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -54,7 +36,7 @@ import org.json.JSONObject;
 /**
  * Created by david on 8/20/2016.
  */
-public class KafkaElasticsearch {
+public class KafkaElasticsearchDate {
     String brokers;
     String topic;
     String group;
@@ -72,7 +54,7 @@ public class KafkaElasticsearch {
 
     Client client;
 
-    public KafkaElasticsearch(String brokers, String topic, String group, String esnodes, String clusterName, String index, String typ, Integer esbulk, Integer webport) {
+    public KafkaElasticsearchDate(String brokers, String topic, String group, String esnodes, String clusterName, String index, String typ, Integer esbulk, Integer webport) {
         this.brokers = brokers;
         this.topic = topic;
         this.group = group;
@@ -216,7 +198,9 @@ public class KafkaElasticsearch {
                 lr = System.currentTimeMillis();
 
                 try {
-                    //new JSONObject(record.value());
+                    JSONObject recordJson = new JSONObject(record.value());
+                    Date dt = new Date(recordJson.getLong("ts"));  // Hardcoded to ts 
+                    Long tlong = dt.getTime();
                     bulkProcessor.add(new IndexRequest(this.index, this.typ).source(record.value()));
                     cnt += 1;
                     if (cnt == 1) {
@@ -283,7 +267,7 @@ public class KafkaElasticsearch {
 
             }   
 
-            KafkaElasticsearch t = null;
+            KafkaElasticsearchDate t = null;
 
 
             System.out.println(brokers);
@@ -297,7 +281,7 @@ public class KafkaElasticsearch {
             System.out.println(webport);
 
 
-            t = new KafkaElasticsearch(brokers,topic,groupId,esnodes,clusterName,index,typ,bulk,webport);
+            t = new KafkaElasticsearchDate(brokers,topic,groupId,esnodes,clusterName,index,typ,bulk,webport);
             t.read();
 
         }
