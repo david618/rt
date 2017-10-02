@@ -19,9 +19,13 @@
 
 /*
 
-Connects to Kafka then listens on port for clients.  
+Listens on port for http connections
 
-Start TcpServerKafka for each connection. 
+Writes messages to Kafka Topic.
+
+NOTE: Fastest rate I've seen with 100byte messages is about 700/s. 
+This may be a limitation of my code and/or way HttpServer is implemnted.
+
 
 */
 package org.jennings.rt.source.http;
