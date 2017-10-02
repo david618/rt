@@ -100,7 +100,7 @@ public class TransformGeotagSimFile implements Transform {
 
         this.fenceUrl = prop.getProperty("fenceUrl");
         this.fieldName = prop.getProperty("fieldName");
-        this.filter = prop.getProperty("filter").equalsIgnoreCase("true") ? true :false;
+        this.filter = prop.getProperty("filter").equalsIgnoreCase("true");
 
 
         System.out.println(this.fenceUrl);
