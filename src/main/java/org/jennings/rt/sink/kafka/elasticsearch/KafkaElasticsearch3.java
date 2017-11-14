@@ -26,6 +26,9 @@ This version uses Elasticsearch rest api
 
 David Jennings
 
+NOTE: Based on testing using sparktest; I suspect if I hyper-threaded this like I did for tcp I could get faster rates.
+Round-robin send requests to each of the data nodes.  Similar code is in Simulator.
+
  */
 package org.jennings.rt.sink.kafka.elasticsearch;
 
