@@ -49,7 +49,9 @@ mvn install
 
 There are instructions [here](https://dcos.io/install/).  There are several options.  For initial testing I created several local VirtualBox VM's (m1, a1, a2, a3, p1); each with 2 cpus and 4G of RAM. I used my desktop which has 8 cores and 32GB RAM.  You might get by with 24GB RAM, but it might not perform very well.
 
-### Install Web Server (optional)
+### Install Web Server 
+
+**Note:** An alternative to setting up a web server is to store the files in an S3 Bucket or Azure Container and enable web access.  
 
 We'll be deploying services using Mesos containerization. Mesos will download the executable code from a web server. So we'll start a web server and put the exeutable code (jar) files and libraries in that folder.
 
@@ -127,21 +129,20 @@ I downloaded the JRE from [Oracle Download Page](http://www.oracle.com/technetwo
 After downloading I moved the file to my test server. Put a copy in /var/www/html/apps/
 
 If you use this option you'll need to modify the "cmd" below to begin something like:
-$MESOS_SANDBOX/jre1.8.0_91/bin/java 
+$MESOS_SANDBOX/jre1.8.0_151/bin/java 
 
 You'll also need to include a URL to the jre.  
 <pre>
 "uris": [
-    "http://p2/jre-8u91-linux-x64.tar.gz",
+    "http://p2/apps/jre-8u151-linux-x64.tar.gz",
     "http://p2/apps/rt-jar-with-dependencies.jar"
   ]
 </pre>
 
-The advantages are you can choose what version of Java is used in the app.  Instead of using whatever is installed on the node. 
+The advantage is you can choose what version of Java you can upgrade and you do not have to install on any of the nodes.
 
 ### Install Kafka
 
-I created a SSH tunnel to my Azure instances so that I can acces the DCOS Web UI.  So you'll see localhost:9001 on my URL's yous may be different.
 
 ![001.png](IntroTestPics/001.png)
 
