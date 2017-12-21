@@ -342,38 +342,40 @@ Increased the number of partitions for the topic to 2.  Instructions on managing
 
 Scaled the apps (tcp-kafka) and (kafka-cnt) to have two instances each.
 
-Ran two Simulators. Used IP's instead of DNS name.
-
+Request faster rate
 <pre>
-dig tcp-kafka.marathon.mesos
-
-java -cp target/Simulator.jar com.esri.simulator.Tcp 172.17.2.4 5565 simFile_1000_10s.dat 200000 2000000
-java -cp target/Simulator.jar com.esri.simulator.Tcp 172.17.2.5 5565 simFile_1000_10s.dat 200000 2000000
+java -cp target/Simulator.jar com.esri.simulator.Tcp tcp-kafka.marathon.mesos 5565 simFile_1000_10s.dat 400000 10000000
 </pre>
 
-Ran both commands at same time.
+The tcp app checks DNS name and starts two threads for sending events.
+
+You could also use IP's and start two commands.
+
+<pre>
+java -cp target/Simulator.jar com.esri.simulator.Tcp 172.17.2.9 5565 simFile_1000_10s.dat 200000 10000000
+java -cp target/Simulator.jar com.esri.simulator.Tcp 172.17.2.6 5565 simFile_1000_10s.dat 200000 10000000
+</pre>
 
 
-| Simulator <br/> Requested/Measured       | tcp-kafka | kafka-cnt |
-|------------------|-----------|-----------|
-| 200,000/141,500 <br/> 200,000/137,200| 277,700     | 273,600
+Get the IP's for the services
+<pre>
+dig tcp-kafka.marathon.mesos
+</pre>
 
-You can double the througput by adding more instances of the sources and sinks.
+You can curl to each to get the rates.  
+
+
+| Simulator Rate (/s) <br> Requested| Simulator Rate (/s) <br> Achieved| tcp-kafka | kafka-cnt |
+|--------------------|--------------------|-----------|-----------|
+|200k                |200k                |200k       |200k       |
+|400k                |339k                |339k       |339k       |
+
+Observation
+- You can double the througput by doubling instances of sources, sinks, and partitions of kafka topic.
 
 
 
-### Repeated Test 25 Aug 2017
 
-- DC/OS 1.9.2 
-- Running Virtual Box VM's 
-- VM's hosted from three computers 
-- One Master, 11 Agents, 1 Public Agent
-- Agents had 4cpu each; Memory from 4G to 6G each
-
-| Simulator <br/> Requested/Measured       | tcp-kafka | kafka-cnt |Events Sent|
-|------------------------------------------|-----------|-----------|-----------|
-| 300,000/210,500                          | 210,400   | 210,400   |30,000,000 |
-| 300,000/209,3000                         | 209,240   | 209,250   |100,000,000|
 
 
 
