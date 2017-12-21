@@ -128,17 +128,6 @@ I downloaded the JRE from [Oracle Download Page](http://www.oracle.com/technetwo
 
 After downloading I moved the file to my test server. Put a copy in /var/www/html/apps/
 
-If you use this option you'll need to modify the "cmd" in the apps below to begin something like:
-$MESOS_SANDBOX/jre1.8.0_151/bin/java 
-
-You'll also need to include a URL to the jre.  
-<pre>
-"uris": [
-    "http://p2/apps/jre-8u151-linux-x64.tar.gz",
-    "http://p2/apps/rt-jar-with-dependencies.jar"
-  ]
-</pre>
-
 The advantage is you can choose what version of Java you can upgrade and you do not have to install on any of the nodes.
 
 ### Install Kafka
@@ -167,7 +156,7 @@ Go to the Service Page
 
 Click the "+" in the upper right corner to Run a Service.  Then click JSON Configuration.  
 
-Enter the JSON (cut-n-paste).  Be sure to correct the path in the uris section as needed.  a90 is the name of my test server.
+Enter the JSON (cut-n-paste).  Be sure to correct the path in the uris section as needed.  The a90 in the URL is the name of my test server.  If you installed java on all the agents you can remove the uris line for the jre and replace $MESOS_SANDBOX/jre1.8.0_151/bin/java with just java.
 
 <pre>
 {
