@@ -1,32 +1,29 @@
 # Intro Test
 
-This Document is detailed walk through of configuring and testing a DCOS app.  The input for this test (tcp-kafka) is a tcp listener that writes messages to a Kafka topic. The output is (kafka-cnt) an app that consumes a kafka topic and counts the messages.
+This Document is detailed walk through of configuring and testing a DC/OS app.  The input for this test (tcp-kafka) is a tcp listener that writes messages to a Kafka topic. The output is (kafka-cnt) an app that consumes a kafka topic and counts the messages.
 
-## Building
+## Building Test Server
 
 These instructions are for CentOS 7.  Similar steps could be done in other OS's.
 
-### Install Tools
+### Install Test Tools
 
-The tools will be installed on a test server. The test server should be able to talk with nodes of the DCOS cluster but should not be a part of the cluster. You don't want to run test / development software on the DCOS nodes. I've found that if you add a note to the cluster then in the services disable the dcos-mesos service; that node can then be used as a test server.
+The tools will be installed on a test server. The test server(s) should be able to talk with nodes of the DCOS cluster but should not be a part of the cluster; to prevent the test software from impacting the test results. You can add a private node to the cluster then disable the dcos-mesos-slave service (e.g. `systemctl stop dcos-mesos-slave`); that node makes a nice test server. 
 
-As root on the test server.  
+The test server should have sufficient resources to support the testing. For these test a 8 cpu server (e.g. AWS m4.2xlarge or Azure DS4) would be a good choice. 
 
 <pre>
-yum -y install java-1.8.0-openjdk
-yum -y install epel-release
-yum -y install git
-yum -y install maven
+sudo yum -y install epel-release
+sudo yum -y install git
+sudo yum -y install maven
 </pre>
 
-- java because this is a Java app.
-- epel-release add yum repo that includes git and maven
+- java because test apps are written in Java 
+- epel-release adds yum repo that includes git and maven
 - git to allow you to clone this github project
 - maven to allow you to build this project
 
 ### Clone and Build
-
-As normal user
 
 <pre>
 git clone https://github.com/david618/rt/
@@ -35,7 +32,7 @@ mvn install
 </pre>
 
 - git clone pulls the code down
-- mvn builds the project (Takes a minute or two; should end with BUILD SUCCESS.
+- mvn builds the project (Takes a minute or so); should end with BUILD SUCCESS.
 
 
 Do the same for Simulator
@@ -52,9 +49,7 @@ mvn install
 
 There are instructions [here](https://dcos.io/install/).  There are several options.  For initial testing I created several local VirtualBox VM's (m1, a1, a2, a3, p1); each with 2 cpus and 4G of RAM. I used my desktop which has 8 cores and 32GB RAM.  You might get by with 24GB RAM, but it might not perform very well.
 
-We did performance testing using Virtual Machines on Azure and Instances on AWS.
-
-### Install Web Server 
+### Install Web Server (optional)
 
 We'll be deploying services using Mesos containerization. Mesos will download the executable code from a web server. So we'll start a web server and put the exeutable code (jar) files and libraries in that folder.
 
@@ -63,14 +58,14 @@ We'll be deploying services using Mesos containerization. Mesos will download th
 As root on test server.
 
 <pre>
-yum -y install httpd
-systemctl enable httpd
-systemctl start httpd
+sudo yum -y install httpd
+sudo systemctl enable httpd
+sudo systemctl start httpd
 </pre>
 
 If you have a firewall installed you'll need to allow access to port 80. 
 
-From one of the DCOS nodes verify that you can access the test server (my test server was named p2).
+From one of the DC/OS nodes verify that you can access the test server (my test server was named p2).
 
 <pre>
 curl p2
@@ -78,7 +73,7 @@ curl p2
 
 You should get back the default http page for Apache.
 
-### Copy File to Web Server
+### Copy Files to Web Server
 
 As root on the test server
 
