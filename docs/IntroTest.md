@@ -221,7 +221,7 @@ Create another Service.
 <pre>
 {
   "id": "/kafka-cnt",
-  "cmd": "$MESOS_SANDBOX/jre1.8.0_151/bin/java -cp $MESOS_SANDBOX/rt-jar-with-dependencies.jar org.jennings.rt.sink.kafka.KafkaCnt kafka planes group1 14002",
+  "cmd": "$MESOS_SANDBOX/jre1.8.0_151/bin/java -cp $MESOS_SANDBOX/rt-jar-with-dependencies.jar org.jennings.rt.sink.kafka.KafkaCnt kafka simFile group1 14002",
   "cpus": 1,
   "mem": 2048,
   "disk": 0,
