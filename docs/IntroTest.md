@@ -150,11 +150,11 @@ From DCOS select Universe Packages and search for Kafka.
 
 Click Install for "kafka". Click Advanced Installation.  Under brokers you should change COUNT to 1 for a small local DCOS cluster.  
 
-![003.png](IntroTestPics/003.png)
+![003.png](IntroTestPics/002.png)
 
 Also Check  Enable Delete check box.
 
-![007.png](IntroTestPics/007.png)
+![007.png](IntroTestPics/003.png)
 
 Click Review and Install; Install. 
 
@@ -165,7 +165,7 @@ We'll create a TCP Source. The Source will listen for TCP input on a specified p
 
 Go to the Service Page
 
-![002.png](IntroTestPics/002.png)
+![002.png](IntroTestPics/004.png)
 
 Click the "+" in the upper right corner to Run a Service.  Then click JSON Configuration.  
 
