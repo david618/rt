@@ -275,9 +275,9 @@ java -cp target/Simulator.jar com.esri.simulator.Tcp tcp-kafka.marathon.mesos 55
 
 The Tcp app will send lines from simFile_1000_10s.dat tcp-kafka.marathon.mesos on port 5565. It will attempt to send at the rate of 100/s for 1,000 lines.  Tcp will then display how many lines (messages) it sent and the actual measured rate at which they were sent. For example:
 
-1000,99.70089730807578
+1000,100
 
-Says Tcp send 1000 lines at the rate of 99.7/s.
+Says Tcp send 1000 lines at the rate of 100/s.
 
 You can get the count/rates from each of the DCOS apps using curl commands.
 
@@ -316,14 +316,22 @@ The reset command will clear results in counts and rates.
 
 ## Test Results
 
-Running on Azure with DS4v2 (8 cores and 28GB memory)
+Running on Azure with DS4v2 (16 cores and 56GB memory)
 
-Throughput
+Simulator
 
-| Simulator <br/> Requested/Measured       | tcp-kafka | kafka-cnt |
-|------------------|-----------|-----------|
-| 200,000/141,500   | 141,400    | 141300    |
-| 200,000/63,900 <br/>  200,000/64,400   | 128,100 | 127,700 |   
+`java -cp target/Simulator.jar com.esri.simulator.Tcp tcp-kafka.marathon.mesos 5565 simFile_1000_10s.dat 200000 20000000`
+
+Tried to send 20 Million Events at 200,000/s
+
+| Simulator Rate (/s) <br> Requested| Simulator Rate (/s) <br> Achieved| tcp-kafka | kafka-cnt |
+|--------------------|--------------------|-----------|-----------|
+|100k                |100k                |100k       |100k       |
+|200k                |166k                |166k       |166k       |
+
+Observations
+- Requested rate 200,000/s; however, the best rate I could achieve was 166,000/s
+- No Events were lost 
 
 
 ### Increasing Throughput
