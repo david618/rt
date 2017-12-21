@@ -232,7 +232,7 @@ Create another Service.
 <pre>
 {
   "id": "/kafka-cnt",
-  "cmd": "java -cp $MESOS_SANDBOX/rt-jar-with-dependencies.jar org.jennings.rt.sink.kafka.KafkaCnt kafka simFile group1 14002",
+  "cmd": "$MESOS_SANDBOX/jre1.8.0_151/bin/java -cp $MESOS_SANDBOX/rt-jar-with-dependencies.jar org.jennings.rt.sink.kafka.KafkaCnt kafka planes group1 14002",
   "cpus": 1,
   "mem": 2048,
   "disk": 0,
@@ -256,7 +256,8 @@ Create another Service.
     }
   ],  
   "uris": [    
-    "http://p2/apps/rt-jar-with-dependencies.jar"
+    "http://a90/apps/jre-8u151-linux-x64.tar.gz",
+    "http://a90/apps/rt-jar-with-dependencies.jar"
   ]
 }
 </pre>
