@@ -128,7 +128,7 @@ I downloaded the JRE from [Oracle Download Page](http://www.oracle.com/technetwo
 
 After downloading I moved the file to my test server. Put a copy in /var/www/html/apps/
 
-If you use this option you'll need to modify the "cmd" below to begin something like:
+If you use this option you'll need to modify the "cmd" in the apps below to begin something like:
 $MESOS_SANDBOX/jre1.8.0_151/bin/java 
 
 You'll also need to include a URL to the jre.  
@@ -146,17 +146,15 @@ The advantage is you can choose what version of Java you can upgrade and you do 
 
 ![001.png](IntroTestPics/001.png)
 
-From DCOS select Universe Packages and search for Kafka.
+From DCOS select Catalog and search for Kafka.
 
-Click Install for "kafka". Click Advanced Installation.  Under brokers you should change COUNT to 1 for a small local DCOS cluster.  
+Click Review &amp; Run. Click Edit.  Under brokers you should change COUNT to 1 for a small local DCOS cluster.  Adjust the DISK size; this is the space where Kafka will store messages. Default is 5000MB (or 5G). Be sure to make this large enough to support the test you are planning.  Under kafka section check "DELETE.TOPIC.ENABLE".
 
 ![003.png](IntroTestPics/002.png)
 
-Also Check  Enable Delete check box.
+Click Review &amp; Run; Run Service
 
 ![007.png](IntroTestPics/003.png)
-
-Click Review and Install; Install. 
 
 It'll take a min or so for kafka to deploy.  The default name of the kafka instance is "kafka".
 
@@ -169,12 +167,12 @@ Go to the Service Page
 
 Click the "+" in the upper right corner to Run a Service.  Then click JSON Configuration.  
 
-Enter the JSON (cut-n-paste).  Be sure to correct the path in the uris section as needed.
+Enter the JSON (cut-n-paste).  Be sure to correct the path in the uris section as needed.  a90 is the name of my test server.
 
 <pre>
 {
   "id": "/tcp-kafka",
-  "cmd": "java -cp $MESOS_SANDBOX/rt-jar-with-dependencies.jar org.jennings.rt.source.tcp.TcpKafka 5565 kafka simFile 14001",
+  "cmd": "$MESOS_SANDBOX/jre1.8.0_151/bin/java -cp $MESOS_SANDBOX/rt-jar-with-dependencies.jar org.jennings.rt.source.tcp.TcpKafka 5565 kafka simFile 14001",
   "cpus": 1,
   "mem": 2048,
   "disk": 0,
@@ -198,7 +196,8 @@ Enter the JSON (cut-n-paste).  Be sure to correct the path in the uris section a
     }
   ],
   "uris": [
-    "http://p2/apps/rt-jar-with-dependencies.jar"
+    "http://a90/apps/jre-8u151-linux-x64.tar.gz",
+    "http://a90/apps/rt-jar-with-dependencies.jar"
   ]
 }
 </pre>
