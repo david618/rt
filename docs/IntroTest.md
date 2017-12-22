@@ -467,9 +467,9 @@ Four Partitions, Four Sources, and Four Sinks
 
 Observation
 - With four partitions, source, and sinks provided max hroughput 135% faster than single instance
-- Increasing the Kafka Broker CPU and Mem
-  - CPU 2:MEM 2048:Max throughput 470k/s 
-  - CPU 4:MEM 8192:Max throughput 720k/s (Required to SImulator Instances); More than four times single instance test)
+- Increasing the Kafka Broker CPU and Mem improved performance
+  - CPU 2:MEM 2048:Max throughput 600k/s 
+  - CPU 4:MEM 8192:Max throughput 720k/s 
   
 
 #### Troubleshooting
