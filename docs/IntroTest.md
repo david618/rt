@@ -64,7 +64,7 @@ There are instructions [here](https://dcos.io/install/).  There are several opti
 
 **Note:** An alternative to setting up a web server is to store the files in an S3 Bucket or Azure Container and enable web access.  
 
-We'll be deploying services using Mesos containerization. Mesos will download the executable code from a web server. So we'll start a web server and put the exeutable code (jar) files and libraries in that folder.
+We'll be deploying services using Universal Container Runtime (UCR). Mesos will download the executable code from a web server. So we'll start a web server and put the exeutable code (jar) files and libraries in that folder.
 
 *NOTE:* You could use app app server like Apache Tomcat. The advantage with Tomcat is it runs (by default) on port 8080 which you can run as a regular user. On the services you'll have to include the port in your URIS.  
 
