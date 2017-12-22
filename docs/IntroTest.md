@@ -1,30 +1,35 @@
-# Intro Test
+# Introduction to DC/OS Test
 
-This Document is detailed walk through of configuring and testing a DC/OS app.  The input for this test (tcp-kafka) is a tcp listener that writes messages to a Kafka topic. The output is (kafka-cnt) an app that consumes a kafka topic and counts the messages.
+This Document is detailed walk through of configuring and testing a DC/OS application.  The input for this test (tcp-kafka) is a tcp listener that writes messages to a Kafka topic recording how many messages were written and the rate the messages were written to Kafka. The output (kafka-cnt) consumes a Kafka topic, counts the messages, and calculates the rate the messages were counted.
 
 ## Building Test Server
 
-These instructions are for CentOS 7.  Similar steps could be done in other OS's.
+These instructions are for CentOS 7.  
 
 ### Install Test Tools
 
-The tools will be installed on a test server. The test server(s) should be able to talk with nodes of the DCOS cluster but should not be a part of the cluster; to prevent the test software from impacting the test results. You can add a private node to the cluster then disable the dcos-mesos-slave service (e.g. `systemctl stop dcos-mesos-slave`); that node makes a nice test server. 
+The tools will be installed on a test server(s). Each test server should be able to communicate to DC/OS nodes cluster but should not be a part of the cluster. Therefore, the test software will have less impact on the test results. You can add additional private or public agents to the cluster then disable the dcos mesos service (e.g. For Private Agent `systemctl stop dcos-mesos-slave`). The test server will have Mesos DNS installed and be able to communicate with the other nodes; but it will not run in DC/OS tasks.
 
-The test server should have sufficient resources to support the testing. For these test a 8 cpu server (e.g. AWS m4.2xlarge or Azure DS4) would be a good choice. 
+The test server should have sufficient resources to support the testing. For these test an 8 cpu server like AWS m4.2xlarge or Azure DS4 would be a good choice. 
+
+### Install Base Tools
 
 <pre>
+sudo yum -y install bash-completion 
 sudo yum -y install epel-release
 sudo yum -y install git
 sudo yum -y install maven
 </pre>
 
-- java because test apps are written in Java 
+- bash-completion is a nice bash tool for command line completion
 - epel-release adds yum repo that includes git and maven
 - git to allow you to clone this github project
-- maven to allow you to build this project
+- maven to allow you to build this project (This also install java)
 
-### Clone and Build
+### Clone and Build App and Test Tools
 
+
+####  Test App
 <pre>
 git clone https://github.com/david618/rt/
 cd rt
@@ -32,8 +37,10 @@ mvn install
 </pre>
 
 - git clone pulls the code down
-- mvn builds the project (Takes a minute or so); should end with BUILD SUCCESS.
+- mvn install compiles the code (Takes a minute or so); should end with BUILD SUCCESS.
+- This project includes the test apps (tcp-kafka, kafka-cnt, and more); More details are on the rt github page.
 
+#### Simulator
 
 Do the same for Simulator
 <pre>
@@ -42,8 +49,10 @@ cd Simulator
 mvn install
 </pre>
 
-- Simulator is a set of test apps 
+- Simulator is a set of test tools
+- mvn install compiles the code
 - As before the compilation should end with BUILD SUCCESS
+- Project includes tools to send message, monitor Kafka topic, and more; More detilas re on the Simulator github page
 
 ### Install DCOS
 
