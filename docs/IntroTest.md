@@ -19,12 +19,14 @@ sudo yum -y install bash-completion
 sudo yum -y install epel-release
 sudo yum -y install git
 sudo yum -y install maven
+sudo yum -y install python-httplib2
 </pre>
 
 - bash-completion is a nice bash tool for command line completion
 - epel-release adds yum repo that includes git and maven
 - git to allow you to clone this github project
 - maven to allow you to build this project (This also install java)
+- python-httplib2 allows pyhton to make http requests
 
 ### Clone and Build App and Test Tools
 
@@ -345,11 +347,16 @@ Observations
 
 ### Increasing Throughput
 
+#### Doubling the Configuration
+
 Stopped the apps (tcp-kafka) and (kafka-cnt).
 
 Increased the number of partitions for the topic to 2.  Instructions on managing kafka [here](ManageKafkaTopics.md)
 
 Scaled the apps (tcp-kafka) and (kafka-cnt) to have two instances each.
+
+
+#### Test with Faster Rate
 
 Request faster rate
 <pre>
@@ -366,13 +373,24 @@ java -cp target/Simulator.jar com.esri.simulator.Tcp 172.17.2.6 5565 simFile_100
 </pre>
 
 
+#### Manually Collect Results
+
 Get the IP's for the services
 <pre>
 dig tcp-kafka.marathon.mesos
 </pre>
 
-You can curl to each to get the rates.  
+You can curl to each to get the rates. 
 
+<pre>
+curl 172.17.2.6:14001/count;echo
+curl 172.17.2.9:14001/count;echo
+</pre>
+
+Each instance counts a portion of messages and calculates it's rate.  The sum of the counts is the total number of messages and the sum of rates it the peak rate. 
+
+
+#### Example Test Results
 
 | Simulator Rate (/s) <br> Requested| Simulator Rate (/s) <br> Achieved| tcp-kafka | kafka-cnt |
 |--------------------|--------------------|-----------|-----------|
@@ -381,6 +399,8 @@ You can curl to each to get the rates.
 
 Observation
 - You can double the througput by doubling instances of sources, sinks, and partitions of kafka topic.
+
+
 
 
 
