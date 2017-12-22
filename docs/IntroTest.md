@@ -389,18 +389,92 @@ curl 172.17.2.9:14001/count;echo
 
 Each instance counts a portion of messages and calculates it's rate.  The sum of the counts is the total number of messages and the sum of rates it the peak rate. 
 
+#### Automate Collecting Counts
+
+We will now modify the services to allow easier collection of counts and rates.
+
+From DC/OS edit the service
+
+Networking
+- Change SERVICE ENDPOINT NAME from "default" to "output"; just to make the purpose of this port clearer
+
+Health Check
+- Delete the one pointint to port 14001 or 14002
+- Created a new one
+- PROTOCOL: HTTP
+- SERVICE ENDPOINT: output
+- If the output does not return; Marathon will restart the app
+
+Service
+- Modify the COMMAND: Replace the port (e.g. 14001 or 14002) with $PORT0
+
+REVIEW &amp; RUN the service
+
+#### Using Script to Collect Count and Rates
+
+Python scripts in Simulator
+
+##### Get Counts
+<pre>
+python pythonScripts/get_counts.py tcp-kafka kafka-cnt
+</pre>
+
+You need to specify the source (tcp-kafka) and the sink (kafka-cnt) marathon app names. 
+
+The last line of script shows the totals: 
+Source Count, Source Rate, Sink Count, Sink Rate
+
+Depening on number of partitions and number of instances during some tests an instance may have more than one result.  The Python Script averages the results if there are multiple counts and rates.  
+
+For each test you should reset the counts to get clear results.
+
+##### Reset Counts
+<pre>
+python pythonScripts/reset_counts.py tcp-kafka kafka-cnt
+</pre>
+
+After running reset you can run get_counts.py again and you should get back: 0,0,0,0
+
+
+#### Typical Test Process
+
+- Reset Counts
+- Run Test
+- Get Counts
+- Document Results
+
 
 #### Example Test Results
+
+Two Partitions, Two Sources, and Two Sinks
 
 | Simulator Rate (/s) <br> Requested| Simulator Rate (/s) <br> Achieved| tcp-kafka | kafka-cnt |
 |--------------------|--------------------|-----------|-----------|
 |200k                |200k                |200k       |200k       |
-|400k                |339k                |339k       |339k       |
+|300k                |273k                |272k       |272k       |
+|400k                |319k                |318k       |318k       |
 
 Observation
-- You can double the througput by doubling instances of sources, sinks, and partitions of kafka topic.
+- Using two partitions, sources, and sinks provided max throughput 92% faster than single instance
+
+Four Partitions, Four Sources, and Four Sinks
+| Simulator Rate (/s) <br> Requested| Simulator Rate (/s) <br> Achieved| tcp-kafka | kafka-cnt |
+|--------------------|--------------------|-----------|-----------|
+|300k                |300k                |300k       |300k       |
+|400k                |347k                |346k       |341k       |
+|500k                |399k                |399k       |391k       |
+
+Observation
+- With four partitions, source, and sinks provided max ghroughput 135% faster than single instance
+- Ran two Simulator from two test servers
+  - Max Rate was 420k/s or 153% faster than single instance
 
 
+#### Troubleshooting
+
+During tests you may overdrive an sink to the point of failure. 
+
+In DC/OS under the app (e.g. tcp-kafka) check Debug for failures. For example "Memory limit exceeded".  The Memory limit exceeded message indicates the application failed because the requested memory was higher than allocated memory; you can increase the allocated memory for the application. 
 
 
 
