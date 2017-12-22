@@ -458,6 +458,7 @@ Observation
 - Using two partitions, sources, and sinks provided max throughput 92% faster than single instance
 
 Four Partitions, Four Sources, and Four Sinks
+
 | Simulator Rate (/s) <br> Requested| Simulator Rate (/s) <br> Achieved| tcp-kafka | kafka-cnt |
 |--------------------|--------------------|-----------|-----------|
 |300k                |300k                |300k       |300k       |
@@ -465,10 +466,11 @@ Four Partitions, Four Sources, and Four Sinks
 |500k                |399k                |399k       |391k       |
 
 Observation
-- With four partitions, source, and sinks provided max ghroughput 135% faster than single instance
-- Ran two Simulator from two test servers
-  - Max Rate was 420k/s or 153% faster than single instance
-
+- With four partitions, source, and sinks provided max hroughput 135% faster than single instance
+- Increasing the Kafka Broker CPU and Mem
+  - CPU 2:MEM 2048:Max throughput 470k/s 
+  - CPU 4:MEM 8192:Max throughput 720k/s (Required to SImulator Instances); More than four times single instance test)
+  
 
 #### Troubleshooting
 
