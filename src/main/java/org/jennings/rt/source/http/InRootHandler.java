@@ -203,15 +203,21 @@ public class InRootHandler implements HttpHandler {
                 obj.put("error", "Unsupported URI");
             }
             response = obj.toString();
+            //he.sendResponseHeaders(200, response.length());
+            he.sendResponseHeaders(200, 0);
+            he.close();
         } catch (Exception e) {
             response = "\"error\":\"" + e.getMessage() + "\"";
             e.printStackTrace();
+            //he.sendResponseHeaders(500, response.length());
+            he.sendResponseHeaders(500, 0);
+            he.close();
         }
 
-        he.sendResponseHeaders(200, response.length());
-        OutputStream os = he.getResponseBody();
-        os.write(response.getBytes());
-        os.close();
+        
+//        OutputStream os = he.getResponseBody();
+//        os.write(response.getBytes());
+//        os.close();
     }
 
 }
