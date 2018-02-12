@@ -5,7 +5,7 @@ You can manage topics vis DCOS CLI or Kafka tools
 ## DCOS CLI
 
 <pre>
-curl -O https://downloads.dcos.io/binaries/cli/linux/x86-64/0.4.15/dcos
+curl -O -s https://downloads.dcos.io/binaries/cli/linux/x86-64/dcos-1.10/dcos
 chmod +x dcos
 ./dcos config set core.dcos_url https://m1
 ./dcos config set core.ssl_verify false
