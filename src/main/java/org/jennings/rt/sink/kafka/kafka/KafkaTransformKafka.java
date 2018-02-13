@@ -83,7 +83,7 @@ public class KafkaTransformKafka {
             consumer = new KafkaConsumer<>(propsCons);
 
             Properties propsProd = new Properties();
-            propsProd.put("bootstrap.servers", brokersIn);
+            propsProd.put("bootstrap.servers", this.brokersOut);
             propsProd.put("client.id", KafkaTransformKafka.class.getName());
             propsProd.put("acks", "1");
             propsProd.put("retries", 0);
