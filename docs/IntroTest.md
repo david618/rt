@@ -104,12 +104,16 @@ On boot
 sudo yum -y install ansible
 ```
 
-Create ansible [hosts]
+Create ansible [hosts](./ansible/hosts)
 
-Create Playbook [install_java.yaml]
+Create Playbook [install_java.yaml](./ansible/install_java.yaml)
 
 Run Playbook.
 
+```
+export ANSIBLE_HOST_KEY_CHECKING=False
+ansible-playbook -i hosts --private-key /home/azureuser/az install_java.yaml
+```
 
 ##### Install from boot
 You can do this from the "boot" server using ssh command.
@@ -125,9 +129,6 @@ Where a1 is one of the private agents.  This could easily be scripted to install
 <pre>
 yum -y install java-1.8.0-openjdk
 </pre>
-
-
-
 
 
 
