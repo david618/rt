@@ -8,7 +8,7 @@ These instructions are for CentOS 7.
 
 ### Install Test Tools
 
-The tools will be installed on a test server(s). Each test server should be able to communicate to DC/OS nodes cluster but should not be a part of the cluster. Therefore, the test software will have less impact on the test results. You can add additional private or public agents to the cluster then disable the dcos mesos service (e.g. For Private Agent `systemctl stop dcos-mesos-slave`). The test server will have Mesos DNS installed and be able to communicate with the other nodes; but it will not run in DC/OS tasks.
+The tools will be installed on a test server(s). Each test server should be able to communicate to DC/OS nodes cluster but should not be a part of the cluster. Therefore, the test software will have less impact on the test results. You can add additional private or public agents to the cluster then disable the dcos mesos service (e.g. For Private Agent `systemctl stop dcos-mesos-slave`). The test server will have Mesos DNS installed and be able to communicate with the other nodes; but it will not run any DC/OS tasks.
 
 The test server should have sufficient resources to support the testing. For these test an 8 cpu server like AWS m4.2xlarge or Azure DS4 would be a good choice. 
 
