@@ -53,7 +53,9 @@ sudo systemctl enable httpd
 sudo systemctl start httpd
 </pre>
 
-If you have a firewall installed you'll need to allow access to port 80. 
+If you have a firewall installed you'll need to allow access to port 80.  
+
+For public agents if you have Marathon-LB or Edge-LB installed you'll need to change the httpd config to use another port (e.g. 81). 
 
 From one of the DC/OS nodes verify that you can access the test server (my test server was named p2).
 
@@ -94,12 +96,22 @@ You can install Java on each Mesos agent (recommended) or you can download Java 
 
 #### Install Java
 
-As root on each agent.
+##### Use Ansible
 
-<pre>
-yum -y install java-1.8.0-openjdk
-</pre>
+On boot
 
+```
+sudo yum -y install ansible
+```
+
+Create ansible [hosts]
+
+Create Playbook [install_java.yaml]
+
+Run Playbook.
+
+
+##### Install from boot
 You can do this from the "boot" server using ssh command.
 
 <pre>
@@ -107,6 +119,17 @@ ssh -t -i azureuser a1 "sudo yum install -y java-1.8.0-openjdk"
 </pre>
 
 Where a1 is one of the private agents.  This could easily be scripted to install on all agents.
+
+##### As root on each agent.
+
+<pre>
+yum -y install java-1.8.0-openjdk
+</pre>
+
+
+
+
+
 
 #### Position Java
 
