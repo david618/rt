@@ -1,6 +1,6 @@
 # Introduction to DC/OS Test
 
-This Document is detailed walk through of configuring and testing a DC/OS application.  The input for this test (tcp-kafka) is a tcp listener that writes messages to a Kafka topic recording how many messages were written and the rate the messages were written to Kafka. The output (kafka-cnt) consumes a Kafka topic, counts the messages, and calculates the rate the messages were counted.
+This Document is a detailed walk through of configuring and testing a DC/OS application.  The input for this test (tcp-kafka) is a tcp listener that writes messages to a Kafka topic recording how many messages were written and the rate the messages were written to Kafka. The output (kafka-cnt) consumes a Kafka topic, counts the messages, and calculates the rate the messages were counted.
 
 ## Building Test Server
 
