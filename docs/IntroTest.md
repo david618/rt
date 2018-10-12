@@ -12,26 +12,14 @@ The tools will be installed on a test server(s). Each test server should be able
 
 The test server should have sufficient resources to support the testing. For these test an 8 cpu server like AWS m4.2xlarge or Azure DS4 would be a good choice. 
 
-### Install Base Tools
+### Install Test Tools
 
-<pre>
-sudo yum -y install bash-completion 
-sudo yum -y install epel-release
-sudo yum -y install git
-sudo yum -y install maven
-sudo yum -y install python-httplib2
-</pre>
+On the test server(s) install [rttest](https://github.com/david618/rttest). 
 
-- bash-completion is a nice bash tool for command line completion
-- epel-release adds yum repo that includes git and maven
-- git to allow you to clone this github project
-- maven to allow you to build this project (This also install java)
-- python-httplib2 allows pyhton to make http requests
+You can download a [precompiled version](https://s3.us-east-2.amazonaws.com/djennings/rttest.zip).  This just contains the executable jar and libs.  You'll need to install java ``sudo yum -y install java-1.8.0-openjdk``.
 
-### Clone and Build App and Test Tools
+### Clone and Build Test apps
 
-
-####  Test App
 <pre>
 git clone https://github.com/david618/rt/
 cd rt
@@ -42,19 +30,8 @@ mvn install
 - mvn install compiles the code (Takes a minute or so); should end with BUILD SUCCESS.
 - This project includes the test apps (tcp-kafka, kafka-cnt, and more); More details are on the rt github page.
 
-#### Simulator
+You can download the [jar file](https://s3.us-east-2.amazonaws.com/djenningsrt/rt.jar).  This jar file needs to have these [lib](https://s3.us-east-2.amazonaws.com/djenningsrt/rt-lib.tgz) files in the Java path.   
 
-Do the same for Simulator
-<pre>
-git clone https://github.com/david618/Simulator
-cd Simulator
-mvn install
-</pre>
-
-- Simulator is a set of test tools
-- mvn install compiles the code
-- As before the compilation should end with BUILD SUCCESS
-- Project includes tools to send message, monitor Kafka topic, and more; More detilas re on the Simulator github page
 
 ### Install DCOS
 
