@@ -1,0 +1,53 @@
+{
+  "id": "/tcp-kafka",
+  "cmd": "java -cp $MESOS_SANDBOX/rt-jar-with-dependencies.jar org.jennings.rt.source.tcp.TcpKafka $PORT0 a81:9092 simfile $PORT1",
+  "container": {
+    "type": "MESOS"
+  },
+  "cpus": 1,
+  "disk": 0,
+  "fetch": [
+    {
+      "uri": "http://p1:81/apps/rt-jar-with-dependencies.jar",
+      "extract": false,
+      "executable": false,
+      "cache": false
+    }
+  ],
+  "healthChecks": [
+    {
+      "gracePeriodSeconds": 300,
+      "intervalSeconds": 60,
+      "maxConsecutiveFailures": 3,
+      "portIndex": 1,
+      "timeoutSeconds": 20,
+      "delaySeconds": 15,
+      "protocol": "MESOS_HTTP",
+      "path": "/"
+    }
+  ],
+  "instances": 1,
+  "mem": 2048,
+  "gpus": 0,
+  "networks": [
+    {
+      "mode": "host"
+    }
+  ],
+  "portDefinitions": [
+    {
+      "labels": {
+        "VIP_0": "/tcp-kafka:5565"
+      },
+      "name": "default",
+      "protocol": "tcp"
+    },
+    {
+      "labels": {
+        "VIP_1": "/tcp-kafka:14000"
+      },
+      "name": "health",
+      "protocol": "tcp"
+    }
+  ]
+}
